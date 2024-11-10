@@ -23,9 +23,11 @@ public class ProjectService {
     public Project getProjectByIdAndUser(int projectId, int userId){
         return projectRepository.getProjectByIdAndUser(projectId,userId);
     }
+//    create a new project
     public Project createProject(Project project){
         return projectRepository.save(project);
     }
+//    update a project
     public Project updateProject(int projectId,Project projectDetails){
         Project existingProject = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
@@ -37,6 +39,7 @@ public class ProjectService {
         existingProject.setUpdated_at(LocalDateTime.now());
         return projectRepository.save(existingProject);
     }
+//    delete a project
     public void deleteProject(int projectId){
         projectRepository.deleteById(projectId);
     }
