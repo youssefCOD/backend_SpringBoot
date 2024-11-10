@@ -1,21 +1,40 @@
 package com.MyBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "project")
 public class Project {
     @Id
     private int project_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id",nullable = false)
     private int creator_id;
     private String name;//name of project
     private String description;//here is the same as the body
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+    private LocalDateTime start_date;
+    private LocalDateTime end_date;
+
+    public LocalDateTime getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(LocalDateTime start_date) {
+        this.start_date = start_date;
+    }
+
+    public LocalDateTime getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(LocalDateTime end_date) {
+        this.end_date = end_date;
+    }
+
     public int getProject_id() {
         return project_id;
     }

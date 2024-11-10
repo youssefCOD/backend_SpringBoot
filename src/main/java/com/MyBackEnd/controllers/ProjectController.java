@@ -34,24 +34,23 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<Project> createProject(@RequestBody Project project, Authentication authentication) {
         int userId = getUserIdFromAuthentication(authentication);
-        project.setCreatorId(userId);  // Set creator to authenticated user
+        project.setCreator_id(userId);  // Set creator to authenticated user
         Project createdProject = projectService.createProject(project);
         return ResponseEntity.ok(createdProject);
     }
 
     // Update an existing project
     @PutMapping("/{projectId}")
-    public ResponseEntity<Project> updateProject(@PathVariable int projectId, @RequestBody Project projectDetails, Authentication authentication) {
-        int userId = getUserIdFromAuthentication(authentication);
-        Project updatedProject = projectService.updateProject(projectId, projectDetails, userId);
+    public ResponseEntity<Project> updateProject(@PathVariable int projectId, @RequestBody Project projectDetails) {
+        Project updatedProject = projectService.updateProject(projectId, projectDetails);
         return ResponseEntity.ok(updatedProject);
     }
 
     // Delete a project
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<Void> deleteProject(@PathVariable int projectId, Authentication authentication) {
-        int userId = getUserIdFromAuthentication(authentication);
-        projectService.deleteProject(projectId, userId);
+    public ResponseEntity<Void> deleteProject(@PathVariable int projectId) {
+//        we don't need user id here
+        projectService.deleteProject(projectId);
         return ResponseEntity.noContent().build();
     }
 
