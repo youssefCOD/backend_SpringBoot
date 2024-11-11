@@ -1,11 +1,15 @@
 package com.MyBackEnd.config.filters;
 
+import com.MyBackEnd.controllers.ProjectController;
 import com.MyBackEnd.services.JwtTokenServices;
 import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,10 +18,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.Console;
 import java.io.IOException;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
+
     @Autowired
     private JwtTokenServices jwtTokenServices;
 
@@ -26,6 +34,9 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+
+
         //GET authentication header
         String authHeader = request.getHeader("Authorization");
 
@@ -36,8 +47,9 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String userEmail = null;
 
         //check /validate authorization header if block
-        if (authHeader ==null || !authHeader.startsWith("bearer ")){
+        if (authHeader ==null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
+            log.debug("problem here 1");
             //kill code execution here
             return;
         }
@@ -46,8 +58,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         //set jwt value
         jwtToken = authHeader.substring(7);
 
+        //for printing the jwt token in the console
+        log.info("________Authorization Header:_______  " + jwtToken);
+        log.debug(jwtToken);
         //extract username from token
         userEmail = jwtTokenServices.extractUsername(jwtToken);
+
+        System.out.println(userEmail);
 
         //check if user is null and is authenticated
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
@@ -61,6 +78,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             }
 
         }
+
+
+        logger.debug("Auth header: " + authHeader);
+        logger.debug("JWT: " + jwtToken);
+        logger.debug("User email: " + userEmail);
+
+
         filterChain.doFilter(request, response);
     }
 }
