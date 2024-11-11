@@ -18,6 +18,15 @@ public class Project {
     private LocalDateTime updated_at;
     private LocalDateTime start_date;
     private LocalDateTime end_date;
+    private double progress;
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
 
     public LocalDateTime getStart_date() {
         return start_date;

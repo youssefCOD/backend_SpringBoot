@@ -37,6 +37,7 @@ public class ProjectService {
         existingProject.setStart_date(projectDetails.getStart_date());
         existingProject.setEnd_date(projectDetails.getEnd_date());
         existingProject.setUpdated_at(LocalDateTime.now());
+        existingProject.setProgress(projectDetails.getProgress());
         return projectRepository.save(existingProject);
     }
 //    delete a project
