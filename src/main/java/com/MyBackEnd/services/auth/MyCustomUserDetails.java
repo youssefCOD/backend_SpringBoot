@@ -8,6 +8,8 @@ import java.util.Collection;
 
 public class MyCustomUserDetails implements UserDetails {
 
+
+
     private User user;
     public MyCustomUserDetails(User user){
         this.user= user;
@@ -53,5 +55,13 @@ public class MyCustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

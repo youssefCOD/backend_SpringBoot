@@ -1,43 +1,57 @@
 package com.MyBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "projects")
 public class Project {
+
     @Id
-    private int project_id;
-    private int creator_id;
-    private String name;//name of project
-    private String description;//here is the same as the body
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
-    public int getProject_id() {
-        return project_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private String title;  // changed from name to title to match earlier example
+
+    private String description;
+
+    @Column(name = "creator_id", nullable = false)
+    private Integer creatorId;  // changed from creator_id to follow Java naming conventions
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;  // changed from start_date to follow Java naming conventions
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;    // changed from end_date to follow Java naming conventions
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;  // changed from created_at to follow Java naming conventions
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;  // changed from updated_at to follow Java naming conventions
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ProjectStatus status;
+
+
+    // Getters and Setters
+    public Integer getId() {
+        return id;
     }
 
-    public void setProject_id(int project_id) {
-        this.project_id = project_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public int getCreator_id() {
-        return creator_id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCreator_id(int creator_id) {
-        this.creator_id = creator_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -48,19 +62,53 @@ public class Project {
         this.description = description;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public Integer getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
     }
 
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Update getter/setter to use enum
+    public ProjectStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProjectStatus status) {
+        this.status = status;
+    }
+
 }

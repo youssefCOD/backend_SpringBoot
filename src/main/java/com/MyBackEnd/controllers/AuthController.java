@@ -2,6 +2,7 @@ package com.MyBackEnd.controllers;
 
 import com.MyBackEnd.dto.requests.LoginRequest;
 import com.MyBackEnd.dto.responses.AuthResponse;
+import com.MyBackEnd.models.User;
 import com.MyBackEnd.services.JwtTokenServices;
 import com.MyBackEnd.services.auth.MyCustomUserDetails;
 import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
@@ -58,20 +59,23 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestParam("first_name") String firstname ,
-                                   @RequestParam("last_name") String lastName,
-                                   @RequestParam("email") String email ,
-                                   @RequestParam("password") String password){
-        //hash password
+    public ResponseEntity<String> register(@RequestParam("first_name") String firstname,
+                                           @RequestParam("last_name") String lastName,
+                                           @RequestParam("email") String email,
+                                           @RequestParam("password") String password) {
+        // Hash password
         String hashed_password = passwordEncoder.encode(password);
 
-        int result = userService.registerUser(firstname, lastName, email, hashed_password);
+        // Register the user using JPA (save the user)
+        User createdUser = userService.registerUser(firstname, lastName, email, hashed_password);
 
-        //check for result set if block:
-        if (result != 1 ){
-            return new ResponseEntity("something went wrong",HttpStatus.BAD_REQUEST);
+        // Check if user was successfully created
+        if (createdUser == null) {
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity("Registration Succesful.",HttpStatus.CREATED);
+        // Return success message with HTTP status code
+        return new ResponseEntity<>("Registration Successful.", HttpStatus.CREATED);
     }
+
 }

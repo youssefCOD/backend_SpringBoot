@@ -7,14 +7,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
-    public User getUserByEmail(String email){
-        return userRepository.getUserByEmail(email);
+
+    // Using Spring Data JPA's built-in method to find a user by email
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);  // This method is automatically created by Spring Data JPA
     }
 
-    public int registerUser(String first_name, String last_name , String email , String password){
-        return userRepository.registerUser(first_name, last_name, email, password);
+    // Using Spring Data JPA's save method for inserting or updating users
+    public User registerUser(String first_name, String last_name , String email , String password) {
+        User user = new User();
+        user.setFirst_name(first_name);
+        user.setLast_name(last_name);
+        user.setEmail(email);
+        user.setPassword(password);
+        return userRepository.save(user);  // Save the user to the database
     }
-
 }
