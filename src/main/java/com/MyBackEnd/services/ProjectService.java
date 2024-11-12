@@ -58,6 +58,7 @@ public class ProjectService {
         // Set creation timestamp
         project.setCreatedAt(LocalDateTime.now());
         project.setUpdatedAt(LocalDateTime.now());
+        Project savedProject = projectRepository.save(project);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
@@ -69,7 +70,7 @@ public class ProjectService {
         userProjectRoleRepository.save(userProjectRole);
 
         try {
-            return projectRepository.save(project);
+            return savedProject;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error creating project: " + e.getMessage());

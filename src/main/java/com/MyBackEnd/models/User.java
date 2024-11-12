@@ -1,8 +1,6 @@
 package com.MyBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
     private String first_name;
     private String Last_name;
