@@ -50,7 +50,7 @@ public class ProjectController {
         try {
             int userId = getUserIdFromAuthentication(authentication);
             project.setCreatorId(userId);
-            Project createdProject = projectService.createProject(project);
+            Project createdProject = projectService.createProject(project,userId);
             return ResponseEntity.ok(createdProject);
         } catch (Exception e) {
             log.error("Error creating project: ", e);
