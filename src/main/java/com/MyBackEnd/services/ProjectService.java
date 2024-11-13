@@ -44,7 +44,7 @@ public class ProjectService {
         if (projectId == null || userId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project ID and User ID cannot be null");
         }
-        return projectRepository.findByIdAndCreatorId(projectId, userId)
+        return projectRepository.findProjectByIdAndUserId(projectId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Project not found or user not authorized"));
     }
@@ -84,7 +84,7 @@ public class ProjectService {
                     "Project ID, User ID and Project details cannot be null");
         }
 
-        Project existingProject = projectRepository.findByIdAndCreatorId(projectId, userId)
+        Project existingProject = projectRepository.findProjectByIdAndUserId(projectId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Project not found or user not authorized"));
 

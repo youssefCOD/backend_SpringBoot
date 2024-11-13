@@ -20,6 +20,8 @@ package com.MyBackEnd.repository;
 
 import com.MyBackEnd.models.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findByCreatorId(Integer creatorId);
 
     // Find specific project by id and creator
-    Optional<Project> findByIdAndCreatorId(Integer id, Integer creatorId);
+    @Query(value = "SELECT p.* FROM projects p " +
+            "JOIN user_project_roles upr ON p.id = upr.project_id " +
+            "WHERE p.id = :projectId AND upr.user_id = :userId",
+            nativeQuery = true)
+    Optional<Project> findProjectByIdAndUserId(@Param("projectId") Integer projectId, @Param("userId") Integer userId);
 
     // Additional useful methods you might want:
     boolean existsByIdAndCreatorId(Integer id, Integer creatorId);

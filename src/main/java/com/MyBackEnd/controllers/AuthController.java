@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("api/v1/auth")
 public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -65,7 +65,7 @@ public class AuthController {
         String hashed_password = passwordEncoder.encode(password);
 
         // Register the user using JPA (save the user)
-        User createdUser = userService.registerUser(firstname, lastName, email, hashed_password);
+        User createdUser = userService.createUser(firstname, lastName, email, hashed_password);
 
         // Check if user was successfully created
         if (createdUser == null) {
