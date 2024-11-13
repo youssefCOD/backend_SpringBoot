@@ -7,7 +7,6 @@ import com.MyBackEnd.services.JwtTokenServices;
 import com.MyBackEnd.services.auth.MyCustomUserDetails;
 import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 import com.MyBackEnd.services.auth.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,7 +32,7 @@ public class AuthController {
     private JwtTokenServices jwtTokenServices;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
 
         //set authentication:
         Authentication authentication = authenticationManager.authenticate(
@@ -67,7 +65,7 @@ public class AuthController {
         String hashed_password = passwordEncoder.encode(password);
 
         // Register the user using JPA (save the user)
-        User createdUser = userService.registerUser(firstname, lastName, email, hashed_password);
+        User createdUser = userService.createUser(firstname, lastName, email, hashed_password);
 
         // Check if user was successfully created
         if (createdUser == null) {

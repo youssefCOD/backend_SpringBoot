@@ -18,8 +18,6 @@ public class ProjectController {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
 
-
-
     @Autowired
     private ProjectService projectService;
 
@@ -35,6 +33,11 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseEntity<Project> getProjectById(@PathVariable int projectId, Authentication authentication) {
         int userId = getUserIdFromAuthentication(authentication);
+
+
+        log.info(String.valueOf(userId));
+        log.debug(String.valueOf(userId));
+
         Project project = projectService.getProjectByIdAndUser(projectId, userId);
         return ResponseEntity.ok(project);
     }
@@ -50,7 +53,7 @@ public class ProjectController {
         try {
             int userId = getUserIdFromAuthentication(authentication);
             project.setCreatorId(userId);
-            Project createdProject = projectService.createProject(project);
+            Project createdProject = projectService.createProject(project,userId);
             return ResponseEntity.ok(createdProject);
         } catch (Exception e) {
             log.error("Error creating project: ", e);
@@ -60,15 +63,26 @@ public class ProjectController {
 
     // Update an existing project
     @PutMapping("/{projectId}")
-    public ResponseEntity<Project> updateProject(@PathVariable Integer projectId,@PathVariable Integer userId, @RequestBody Project projectDetails) {
-        Project updatedProject = projectService.updateProject(projectId,userId, projectDetails);
+    public ResponseEntity<Project> updateProject(@PathVariable Integer projectId,
+                                                 @RequestBody Project projectDetails,
+                                                 Authentication authentication) {
+        // Extract the userId from the authentication object (authenticated user)
+        int userId = getUserIdFromAuthentication(authentication);
+
+        // Call the service to update the project
+        Project updatedProject = projectService.updateProject(projectId, userId, projectDetails);
+
+        // Return the updated project
         return ResponseEntity.ok(updatedProject);
     }
 
+
     // Delete a project
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<Void> deleteProject(@PathVariable Integer projectId , @PathVariable Integer userId) {
-//        we don't need user id here
+    public ResponseEntity<Void> deleteProject(@PathVariable Integer projectId,Authentication authentication ) {
+        // Extract the userId from the authentication object (authenticated user)
+        int userId = getUserIdFromAuthentication(authentication);
+        //we don't need user id here
         projectService.deleteProject(projectId,userId);
         return ResponseEntity.noContent().build();
     }

@@ -3,7 +3,9 @@ package com.MyBackEnd.services.auth;
 import com.MyBackEnd.models.User;
 import com.MyBackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
@@ -17,7 +19,12 @@ public class UserService {
     }
 
     // Using Spring Data JPA's save method for inserting or updating users
-    public User registerUser(String first_name, String last_name , String email , String password) {
+    public User createUser(String first_name, String last_name , String email , String password) {
+
+        if (userRepository.existsByEmail(email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use");
+        }
+
         User user = new User();
         user.setFirst_name(first_name);
         user.setLast_name(last_name);

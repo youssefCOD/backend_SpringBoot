@@ -2,11 +2,15 @@ package com.MyBackEnd.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "projects")
 public class Project {
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserProjectRole> userProjectRoles;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

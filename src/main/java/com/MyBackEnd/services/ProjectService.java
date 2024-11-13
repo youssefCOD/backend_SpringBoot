@@ -1,7 +1,12 @@
 package com.MyBackEnd.services;
 
 import com.MyBackEnd.models.Project;
+import com.MyBackEnd.models.ProjectRoles;
+import com.MyBackEnd.models.User;
+import com.MyBackEnd.models.UserProjectRole;
 import com.MyBackEnd.repository.ProjectRepository;
+import com.MyBackEnd.repository.UserProjectRoleRepository;
+import com.MyBackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,10 +21,14 @@ import java.util.List;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final UserProjectRoleRepository userProjectRoleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, UserProjectRoleRepository userProjectRoleRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
+        this.userProjectRoleRepository = userProjectRoleRepository;
+        this.userRepository = userRepository;
     }
 
     // Find all projects by user
@@ -35,13 +44,13 @@ public class ProjectService {
         if (projectId == null || userId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project ID and User ID cannot be null");
         }
-        return projectRepository.findByIdAndCreatorId(projectId, userId)
+        return projectRepository.findProjectByIdAndUserId(projectId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Project not found or user not authorized"));
     }
 
     // Create a new project
-    public Project createProject(Project project) {
+    public Project createProject(Project project,int userId) {
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project cannot be null");
         }
@@ -49,9 +58,19 @@ public class ProjectService {
         // Set creation timestamp
         project.setCreatedAt(LocalDateTime.now());
         project.setUpdatedAt(LocalDateTime.now());
+        Project savedProject = projectRepository.save(project);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        UserProjectRole userProjectRole = new UserProjectRole();
+        userProjectRole.setRole(ProjectRoles.Owner);
+        userProjectRole.setProject(project);
+        userProjectRole.setUser(user);
+        userProjectRoleRepository.save(userProjectRole);
 
         try {
-            return projectRepository.save(project);
+            return savedProject;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error creating project: " + e.getMessage());
@@ -65,7 +84,7 @@ public class ProjectService {
                     "Project ID, User ID and Project details cannot be null");
         }
 
-        Project existingProject = projectRepository.findByIdAndCreatorId(projectId, userId)
+        Project existingProject = projectRepository.findProjectByIdAndUserId(projectId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Project not found or user not authorized"));
 

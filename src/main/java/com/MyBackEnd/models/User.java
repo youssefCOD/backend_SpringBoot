@@ -1,8 +1,6 @@
 package com.MyBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -10,9 +8,12 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User {
     @Id
-    private int user_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private int id;
     private String first_name;
     private String Last_name;
+    @Column(unique = true)
     private String email;
     private String password;
     private LocalDateTime created_at;
@@ -20,11 +21,11 @@ public class User {
 
 
     public int getUser_id() {
-        return user_id;
+        return id;
     }
 
     public void setUser_id(int user_id) {
-        this.user_id = user_id;
+        this.id = user_id;
     }
 
     public String getFirst_name() {
