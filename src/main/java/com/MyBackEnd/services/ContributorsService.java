@@ -34,7 +34,7 @@ public class ContributorsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
         return userProjectRoleRepository.findByProject(project);
     }
-    public UserProjectRole createContributor(Integer projectId,int userId){
+    public UserProjectRole createContributorById(Integer projectId,int userId){
         if (projectId == null || userId == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project Id or User Id cannot be null");
         }
@@ -43,6 +43,30 @@ public class ContributorsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
+
+        UserProjectRole userProjectRole = new UserProjectRole();
+        userProjectRole.setRole(ProjectRoles.Contributor);
+        userProjectRole.setProject(project);
+        userProjectRole.setUser(user);
+
+
+        try {
+            return userProjectRoleRepository.save(userProjectRole);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error creating contributor: " + e.getMessage());
+        }
+    }
+    public UserProjectRole createContributorByEmail(Integer projectId,String email){
+        if(projectId == null || email == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Project Id or Email cannot be null");
+        }
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
 
         UserProjectRole userProjectRole = new UserProjectRole();
         userProjectRole.setRole(ProjectRoles.Contributor);

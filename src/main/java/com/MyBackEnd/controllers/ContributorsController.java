@@ -17,7 +17,7 @@ public class ContributorsController {
     @Autowired
     private ContributorsService contributorsService;
 
-//    Get all the contributors
+    //    Get all the contributors
     @GetMapping("/project/{project_id}")
     public ResponseEntity<List<UserProjectRole>> getAllContributors(@PathVariable("project_id")Integer projectId) {
         List<UserProjectRole> contributors = contributorsService.getAllContributorsForProject(projectId);
@@ -26,7 +26,17 @@ public class ContributorsController {
     @PostMapping("/project/{project_id}/user/{user_id}")
     public ResponseEntity<UserProjectRole> createContributor(@PathVariable("project_id")Integer projectId, @PathVariable("user_id") int userId){
         try {
-            UserProjectRole contributor = contributorsService.createContributor(projectId,userId);
+            UserProjectRole contributor = contributorsService.createContributorById(projectId,userId);
+            return ResponseEntity.ok(contributor);
+        } catch (Exception e) {
+            log.error("Error creating contributor: ", e);
+            return ResponseEntity.status(500).build();
+        }
+    }
+    @PostMapping("/project/{project_id}")
+    public ResponseEntity<UserProjectRole> createContributor(@PathVariable("project_id")Integer projectId, @RequestParam("email")String email){
+        try {
+            UserProjectRole contributor = contributorsService.createContributorByEmail(projectId,email);
             return ResponseEntity.ok(contributor);
         } catch (Exception e) {
             log.error("Error creating contributor: ", e);
