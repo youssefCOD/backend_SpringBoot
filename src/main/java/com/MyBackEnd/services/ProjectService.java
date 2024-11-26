@@ -1,7 +1,7 @@
 package com.MyBackEnd.services;
 
 import com.MyBackEnd.models.Project;
-import com.MyBackEnd.models.ProjectRoles;
+import com.MyBackEnd.models.ProjectRolesEnum;
 import com.MyBackEnd.models.User;
 import com.MyBackEnd.models.UserProjectRole;
 import com.MyBackEnd.repository.ProjectRepository;
@@ -64,7 +64,7 @@ public class ProjectService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         UserProjectRole userProjectRole = new UserProjectRole();
-        userProjectRole.setRole(ProjectRoles.Owner);
+        userProjectRole.setRole(ProjectRolesEnum.Owner);
         userProjectRole.setProject(project);
         userProjectRole.setUser(user);
         userProjectRoleRepository.save(userProjectRole);

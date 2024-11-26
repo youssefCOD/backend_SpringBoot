@@ -19,7 +19,7 @@ public class UserProjectRole {
 
     @Enumerated(EnumType.STRING)
     @Column(name="role",nullable = false)
-    private ProjectRoles role;
+    private ProjectRolesEnum role;
 
     public Integer getId() {
         return id;
@@ -45,11 +45,11 @@ public class UserProjectRole {
         this.project = project;
     }
 
-    public ProjectRoles getRole() {
+    public ProjectRolesEnum getRole() {
         return role;
     }
 
-    public void setRole(ProjectRoles role) {
+    public void setRole(ProjectRolesEnum role) {
         this.role = role;
     }
 }

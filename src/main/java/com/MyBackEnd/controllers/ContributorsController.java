@@ -43,4 +43,24 @@ public class ContributorsController {
             return ResponseEntity.status(500).build();
         }
     }
+    @DeleteMapping("/project/{project_id}/user/{user_id}")
+    public ResponseEntity<UserProjectRole> deleteContributor(@PathVariable("project_id")Integer projectId, @PathVariable("user_id") int userId){
+        try {
+            UserProjectRole contributor = contributorsService.deleteContributorById(projectId,userId);
+            return ResponseEntity.ok(contributor);
+        } catch (Exception e) {
+            log.error("Error creating contributor: ", e);
+            return ResponseEntity.status(500).build();
+        }
+    }
+    @DeleteMapping("/project/{project_id}")
+    public ResponseEntity<UserProjectRole> deleteContributor(@PathVariable("project_id")Integer projectId, @RequestParam("email")String email){
+        try {
+            UserProjectRole contributor = contributorsService.deleteContributorByEmail(projectId,email);
+            return ResponseEntity.ok(contributor);
+        } catch (Exception e) {
+            log.error("Error creating contributor: ", e);
+            return ResponseEntity.status(500).build();
+        }
+    }
 }

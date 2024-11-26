@@ -1,6 +1,6 @@
 package com.MyBackEnd.models;
 
-public enum ProjectRoles {
+public enum ProjectRolesEnum {
     Owner,
     Contributor
 }
