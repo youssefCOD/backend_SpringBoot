@@ -1,9 +1,6 @@
 package com.MyBackEnd.controllers;
 
-import com.MyBackEnd.models.Task;
 import com.MyBackEnd.models.TaskAssignment;
-import com.MyBackEnd.models.UserProjectRole;
-import com.MyBackEnd.services.ContributorsService;
 import com.MyBackEnd.services.TaskAssignmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +25,9 @@ public class TaskAssignmentController {
         return ResponseEntity.ok(contributors);
     }
     @PostMapping("/task/{task_id}/user/{user_id}")
-    public ResponseEntity<TaskAssignment> createContributor(@PathVariable("task_id")Integer projectId, @PathVariable("user_id") int userId){
+    public ResponseEntity<TaskAssignment> createContributor(@PathVariable("task_id")Integer taskId, @PathVariable("user_id") int userId){
         try {
-            TaskAssignment contributor = taskAssignmentService.createContributorById(projectId,userId);
+            TaskAssignment contributor = taskAssignmentService.createContributorById(taskId,userId);
             return ResponseEntity.ok(contributor);
         } catch (Exception e) {
             log.error("Error creating contributor: ", e);
@@ -38,9 +35,9 @@ public class TaskAssignmentController {
         }
     }
     @PostMapping("/task/{task_id}")
-    public ResponseEntity<TaskAssignment> createContributor(@PathVariable("task_id")Integer projectId, @RequestParam("email")String email){
+    public ResponseEntity<TaskAssignment> createContributor(@PathVariable("task_id")Integer taskId, @RequestParam("email")String email){
         try {
-            TaskAssignment contributor = taskAssignmentService.createContributorByEmail(projectId,email);
+            TaskAssignment contributor = taskAssignmentService.createContributorByEmail(taskId,email);
             return ResponseEntity.ok(contributor);
         } catch (Exception e) {
             log.error("Error creating contributor: ", e);
@@ -48,9 +45,9 @@ public class TaskAssignmentController {
         }
     }
     @DeleteMapping("/task/{task_id}/user/{user_id}")
-    public ResponseEntity<TaskAssignment> deleteContributor(@PathVariable("task_id")Integer projectId, @PathVariable("user_id") int userId){
+    public ResponseEntity<TaskAssignment> deleteContributor(@PathVariable("task_id")Integer taskId, @PathVariable("user_id") int userId){
         try {
-            TaskAssignment contributor = TaskAssignment.deleteContributorById(projectId,userId);
+            TaskAssignment contributor = taskAssignmentService.deleteContributorById(taskId,userId);
             return ResponseEntity.ok(contributor);
         } catch (Exception e) {
             log.error("Error creating contributor: ", e);
@@ -58,9 +55,9 @@ public class TaskAssignmentController {
         }
     }
     @DeleteMapping("/task/{task_id}")
-    public ResponseEntity<TaskAssignment> deleteContributor(@PathVariable("project_id")Integer projectId, @RequestParam("email")String email){
+    public ResponseEntity<TaskAssignment> deleteContributor(@PathVariable("task_id")Integer taskId, @RequestParam("email")String email){
         try {
-            TaskAssignment contributor = taskAssignmentService.deleteContributorByEmail(projectId,email);
+            TaskAssignment contributor = taskAssignmentService.deleteContributorByEmail(taskId,email);
             return ResponseEntity.ok(contributor);
         } catch (Exception e) {
             log.error("Error creating contributor: ", e);

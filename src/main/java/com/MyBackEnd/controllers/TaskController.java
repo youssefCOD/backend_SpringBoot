@@ -22,10 +22,10 @@ public class TaskController {
         List<Task> tasks = taskService.getAllTasksForProject(projectId);
         return ResponseEntity.ok(tasks);
     }
-    @PostMapping("/project/{project_id}")
-    public ResponseEntity<Task> createContributor(@RequestBody Task taskBody,@PathVariable("project_id")Integer projectId){
+    @PostMapping("/project/{project_id}/user/{user_id}")
+    public ResponseEntity<Task> createContributor(@RequestBody Task taskBody,@PathVariable("project_id")Integer projectId,@PathVariable("user_id")int userId){
         try {
-            Task task = taskService.createTaskByProjectId(taskBody,projectId);
+            Task task = taskService.createTaskByProjectId(taskBody,projectId,userId);
             return ResponseEntity.ok(task);
         } catch (Exception e) {
             log.error("Error creating the task: ", e);
