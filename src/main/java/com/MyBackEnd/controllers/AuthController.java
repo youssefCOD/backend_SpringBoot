@@ -7,6 +7,7 @@ import com.MyBackEnd.services.JwtTokenServices;
 import com.MyBackEnd.services.auth.MyCustomUserDetails;
 import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 import com.MyBackEnd.services.auth.UserService;
+import com.MyBackEnd.controllers.DTO.RegistrationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam("first_name") String firstname,
+    public ResponseEntity<RegistrationResponse> register(@RequestParam("first_name") String firstname,
                                            @RequestParam("last_name") String lastName,
                                            @RequestParam("email") String email,
                                            @RequestParam("password") String password) {
@@ -69,11 +70,14 @@ public class AuthController {
 
         // Check if user was successfully created
         if (createdUser == null) {
-            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+            RegistrationResponse errorResponse = new RegistrationResponse("Something went wrong", "failure");
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 
+        //so that we can reture a json
+        RegistrationResponse successResponse = new RegistrationResponse("Registration Successful.", "success");
         // Return success message with HTTP status code
-        return new ResponseEntity<>("Registration Successful.", HttpStatus.CREATED);
+        return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
     }
 
 }
