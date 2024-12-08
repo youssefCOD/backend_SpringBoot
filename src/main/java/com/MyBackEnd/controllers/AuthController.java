@@ -1,13 +1,5 @@
 package com.MyBackEnd.controllers;
 
-import com.MyBackEnd.dto.requests.LoginRequest;
-import com.MyBackEnd.dto.responses.AuthResponse;
-import com.MyBackEnd.models.User;
-import com.MyBackEnd.services.JwtTokenServices;
-import com.MyBackEnd.services.auth.MyCustomUserDetails;
-import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
-import com.MyBackEnd.services.auth.UserService;
-import com.MyBackEnd.controllers.DTO.RegistrationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +8,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.MyBackEnd.controllers.DTO.RegistrationResponse;
+import com.MyBackEnd.dto.requests.LoginRequest;
+import com.MyBackEnd.dto.responses.AuthResponse;
+import com.MyBackEnd.models.User;
+import com.MyBackEnd.services.JwtTokenServices;
+import com.MyBackEnd.services.auth.MyCustomUserDetails;
+import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
+import com.MyBackEnd.services.auth.UserService;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -58,7 +63,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponse> register(@RequestParam("first_name") String firstname,
+    public ResponseEntity<RegistrationResponse> register(@RequestParam("first_name") String firstName,
                                            @RequestParam("last_name") String lastName,
                                            @RequestParam("email") String email,
                                            @RequestParam("password") String password) {
@@ -66,7 +71,7 @@ public class AuthController {
         String hashed_password = passwordEncoder.encode(password);
 
         // Register the user using JPA (save the user)
-        User createdUser = userService.createUser(firstname, lastName, email, hashed_password);
+        User createdUser = userService.createUser(firstName, lastName, email, hashed_password);
 
         // Check if user was successfully created
         if (createdUser == null) {

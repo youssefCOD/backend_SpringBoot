@@ -1,13 +1,7 @@
 package com.MyBackEnd.config.filters;
 
-import com.MyBackEnd.controllers.ProjectController;
-import com.MyBackEnd.services.JwtTokenServices;
-import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +12,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.Console;
-import java.io.IOException;
+import com.MyBackEnd.controllers.ProjectController;
+import com.MyBackEnd.services.JwtTokenServices;
+import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
@@ -37,17 +37,17 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
 
 
-        //GET authentication header
+        // GET authentication header
         String authHeader = request.getHeader("Authorization");
 
-        //GET JWT Property
-        String jwtToken = null;
+        // GET JWT Property
+        String jwtToken;
 
-        //SET username Property
-        String userEmail = null;
+        // SET username Property
+        String userEmail;
 
         //check /validate authorization header if block
-        if (authHeader ==null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             log.debug("problem here 1");
             //kill code execution here
