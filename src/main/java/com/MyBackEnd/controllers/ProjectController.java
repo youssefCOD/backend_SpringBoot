@@ -34,7 +34,6 @@ public class ProjectController {
     public ResponseEntity<Project> getProjectById(@PathVariable int projectId, Authentication authentication) {
         int userId = getUserIdFromAuthentication(authentication);
 
-
         log.info(String.valueOf(userId));
         log.debug(String.valueOf(userId));
 
@@ -53,7 +52,7 @@ public class ProjectController {
         try {
             int userId = getUserIdFromAuthentication(authentication);
             project.setCreatorId(userId);
-            Project createdProject = projectService.createProject(project,userId);
+            Project createdProject = projectService.createProject(project, userId);
             return ResponseEntity.ok(createdProject);
         } catch (Exception e) {
             log.error("Error creating project: ", e);
@@ -64,8 +63,8 @@ public class ProjectController {
     // Update an existing project
     @PutMapping("/{projectId}")
     public ResponseEntity<Project> updateProject(@PathVariable Integer projectId,
-                                                 @RequestBody Project projectDetails,
-                                                 Authentication authentication) {
+            @RequestBody Project projectDetails,
+            Authentication authentication) {
         // Extract the userId from the authentication object (authenticated user)
         int userId = getUserIdFromAuthentication(authentication);
 
@@ -76,14 +75,13 @@ public class ProjectController {
         return ResponseEntity.ok(updatedProject);
     }
 
-
     // Delete a project
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<Void> deleteProject(@PathVariable Integer projectId,Authentication authentication ) {
+    public ResponseEntity<Void> deleteProject(@PathVariable Integer projectId, Authentication authentication) {
         // Extract the userId from the authentication object (authenticated user)
         int userId = getUserIdFromAuthentication(authentication);
         //we don't need user id here
-        projectService.deleteProject(projectId,userId);
+        projectService.deleteProject(projectId, userId);
         return ResponseEntity.noContent().build();
     }
 
@@ -95,6 +93,6 @@ public class ProjectController {
         // Access the User entity through MyCustomUserDetails
         User user = userDetails.getUser(); // Assuming MyCustomUserDetails has a getUser() method
 
-        return user.getUser_id(); // Assuming User has a getUser_id() method
+        return user.getUserId(); // Assuming User has a getUser_id() method
     }
 }

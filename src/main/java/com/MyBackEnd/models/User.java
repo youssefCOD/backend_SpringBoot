@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -17,10 +18,10 @@ public class User {
     private String password;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
-    
+
     private int color = 0xFFFF6666; // Default color
 
-    public int getUser_id() {
+    public int getUserId() {
         return id;
     }
 
@@ -28,7 +29,7 @@ public class User {
         this.id = user_id;
     }
 
-    public String getFirst_name() {
+    public String getFirstName() {
         return first_name;
     }
 
@@ -36,7 +37,7 @@ public class User {
         this.first_name = first_name;
     }
 
-    public String getLast_name() {
+    public String getLastName() {
         return Last_name;
     }
 

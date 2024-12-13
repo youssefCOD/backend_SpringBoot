@@ -9,8 +9,9 @@ import java.util.Collection;
 public class MyCustomUserDetails implements UserDetails {
 
     private User user;
-    public MyCustomUserDetails(User user){
-        this.user= user;
+
+    public MyCustomUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
@@ -25,22 +26,29 @@ public class MyCustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getFirstName() + " " + user.getLastName();
     }
-    public int getUserId(){
-        return this.user.getUser_id();
+
+    public String getEmail() {
+        return this.user.getEmail();
     }
-    public String getFirstName(){
-        return this.user.getFirst_name();
+
+    public int getUserId() {
+        return this.user.getUserId();
+    }
+
+    public String getFirstName() {
+        return this.user.getFirstName();
     }
 
     public String getLastName() {
-        return this.user.getLast_name();
+        return this.user.getLastName();
     }
 
     public int getColor() {
         return this.user.getColor();
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
