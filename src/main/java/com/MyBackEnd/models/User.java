@@ -1,7 +1,6 @@
 package com.MyBackEnd.models;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,7 +17,8 @@ public class User {
     private String password;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
-
+    
+    private int color = 0xFFFF6666; // Default color
 
     public int getUser_id() {
         return id;
@@ -76,4 +76,11 @@ public class User {
         this.email = email;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }
