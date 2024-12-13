@@ -8,12 +8,11 @@ import java.util.Collection;
 
 public class MyCustomUserDetails implements UserDetails {
 
-
-
     private User user;
     public MyCustomUserDetails(User user){
         this.user= user;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -34,8 +33,13 @@ public class MyCustomUserDetails implements UserDetails {
     public String getFirstName(){
         return this.user.getFirst_name();
     }
-    public String getLastName(){
+
+    public String getLastName() {
         return this.user.getLast_name();
+    }
+
+    public int getColor() {
+        return this.user.getColor();
     }
     @Override
     public boolean isAccountNonExpired() {

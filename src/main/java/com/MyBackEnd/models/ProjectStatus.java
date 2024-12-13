@@ -5,5 +5,4 @@ public enum ProjectStatus {
     PENDING,
     COMPLETED,
     CANCELLED
-    // add any other statuses you need
 }

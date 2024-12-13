@@ -26,7 +26,10 @@ public class AuthResponse {
         return this.myCustomUserDetails.getFirstName();
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return this.myCustomUserDetails.getLastName();
+    }
+    public int getColor(){
+        return this.myCustomUserDetails.getColor();
     }
 }

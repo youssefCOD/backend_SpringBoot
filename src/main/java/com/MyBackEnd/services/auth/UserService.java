@@ -19,7 +19,7 @@ public class UserService {
     }
 
     // Using Spring Data JPA's save method for inserting or updating users
-    public User createUser(String first_name, String last_name , String email , String password) {
+    public User createUser(String first_name, String last_name, String email, String password, int color) {
 
         if (userRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use");
@@ -30,6 +30,7 @@ public class UserService {
         user.setLast_name(last_name);
         user.setEmail(email);
         user.setPassword(password);
+        user.setColor(color);
         return userRepository.save(user);  // Save the user to the database
     }
 }

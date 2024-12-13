@@ -10,15 +10,15 @@ public class UserProjectRole {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "project_id",nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role",nullable = false)
+    @Column(name="role", nullable = false)
     private ProjectRolesEnum role;
 
     public Integer getId() {

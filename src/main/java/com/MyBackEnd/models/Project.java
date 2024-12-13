@@ -61,6 +61,13 @@ public class Project {
         this.title = title;
     }
 
+    public int getColor() {
+        return this.color;
+    }
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     public String getDescription() {
         return description;
     }

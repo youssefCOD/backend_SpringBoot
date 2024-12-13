@@ -66,12 +66,13 @@ public class AuthController {
     public ResponseEntity<RegistrationResponse> register(@RequestParam("first_name") String firstName,
                                            @RequestParam("last_name") String lastName,
                                            @RequestParam("email") String email,
-                                           @RequestParam("password") String password) {
+                                           @RequestParam("password") String password,
+                                            @RequestParam("color") int color) {
         // Hash password
         String hashed_password = passwordEncoder.encode(password);
 
         // Register the user using JPA (save the user)
-        User createdUser = userService.createUser(firstName, lastName, email, hashed_password);
+        User createdUser = userService.createUser(firstName, lastName, email, hashed_password, color);
 
         // Check if user was successfully created
         if (createdUser == null) {
@@ -79,10 +80,25 @@ public class AuthController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 
-        //so that we can reture a json
-        RegistrationResponse successResponse = new RegistrationResponse("Registration Successful.", "success");
-        // Return success message with HTTP status code
-        return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
+        final Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+        final MyCustomUserDetails userDetails
+                = (MyCustomUserDetails) myCustomUserDetailsService.loadUserByUsername(email);
+
+        // set security context:
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        //generate token:
+        String token = jwtTokenServices.generateToken(userDetails);
+
+        AuthResponse response = new AuthResponse(token, userDetails);
+
+        // so that we can rature a json(tabrkalah makontch 3araf tsa7bli radi traj3lihom l7ammas)
+        //* */ Old code
+        //* */ RegistrationResponse successResponse = new RegistrationResponse("Registration Successful.", "success");
+        //* */ Return success message with HTTP status code
+        return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
 }
