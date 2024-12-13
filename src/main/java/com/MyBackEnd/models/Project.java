@@ -21,6 +21,9 @@ public class Project {
 
     private String description;
 
+    @Column(name = "color")
+    private int color = 0xFF0087FF;
+
     @Column(name = "creator_id", nullable = false)
     private Integer creatorId;  // changed from creator_id to follow Java naming conventions
 

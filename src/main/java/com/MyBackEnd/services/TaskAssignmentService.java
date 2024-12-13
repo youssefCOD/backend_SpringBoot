@@ -16,12 +16,15 @@ public class TaskAssignmentService {
     private final TaskAssignmentRepository taskAssignmentRepository;
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+
     @Autowired
-    public TaskAssignmentService(TaskAssignmentRepository taskAssignmentRepository, UserRepository userRepository, TaskRepository taskRepository) {
+    public TaskAssignmentService(TaskAssignmentRepository taskAssignmentRepository, UserRepository userRepository,
+            TaskRepository taskRepository) {
         this.taskAssignmentRepository = taskAssignmentRepository;
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
     }
+
     public List<TaskAssignment> getAllContributorsForTask(Integer taskId) {
         if (taskId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task ID cannot be null");
@@ -30,7 +33,8 @@ public class TaskAssignmentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
         return taskAssignmentRepository.findByTask(task);
     }
-    public TaskAssignment createContributorById(Integer taskId, int userId){
+
+    public TaskAssignment createContributorById(Integer taskId, int userId) {
         if (taskId == null || userId == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task Id or User Id cannot be null");
         }
@@ -49,8 +53,6 @@ public class TaskAssignmentService {
         taskAssignment.setUser(user);
         taskAssignment.setRole(TaskRolesEnum.Contributor);
 
-
-
         try {
             return taskAssignmentRepository.save(taskAssignment);
         } catch (Exception e) {
@@ -58,9 +60,10 @@ public class TaskAssignmentService {
                     "Error creating contributor: " + e.getMessage());
         }
     }
-    public TaskAssignment createContributorByEmail(Integer taskId,String email){
-        if(taskId == null || email == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"task Id or Email cannot be null");
+
+    public TaskAssignment createContributorByEmail(Integer taskId, String email) {
+        if (taskId == null || email == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "task Id or Email cannot be null");
         }
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -79,8 +82,6 @@ public class TaskAssignmentService {
         taskAssignment.setUser(user);
         taskAssignment.setRole(TaskRolesEnum.Contributor);
 
-
-
         try {
             return taskAssignmentRepository.save(taskAssignment);
         } catch (Exception e) {
@@ -88,7 +89,8 @@ public class TaskAssignmentService {
                     "Error creating contributor: " + e.getMessage());
         }
     }
-    public TaskAssignment deleteContributorById(Integer taskId,int userId){
+
+    public TaskAssignment deleteContributorById(Integer taskId, int userId) {
         if (taskId == null || userId == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task Id or User Id cannot be null");
         }
@@ -116,9 +118,10 @@ public class TaskAssignmentService {
                     "Error deleting contributor: " + e.getMessage());
         }
     }
-    public TaskAssignment deleteContributorByEmail(Integer taskId,String email){
-        if(taskId == null || email == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"task Id or Email cannot be null");
+
+    public TaskAssignment deleteContributorByEmail(Integer taskId, String email) {
+        if (taskId == null || email == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "task Id or Email cannot be null");
         }
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -145,10 +148,5 @@ public class TaskAssignmentService {
                     "Error deleting contributor: " + e.getMessage());
         }
     }
-
-
-
-
-
 
 }

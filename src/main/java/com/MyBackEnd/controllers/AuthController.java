@@ -41,15 +41,15 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
 
         //set authentication:
-        Authentication authentication = authenticationManager.authenticate(
+        final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
 
         // set user object :
-        MyCustomUserDetails userDetails =
+        final MyCustomUserDetails userDetails =
                 (MyCustomUserDetails) myCustomUserDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        //set security context:
+        // set security context:
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         //generate token:

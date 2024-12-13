@@ -1,7 +1,6 @@
 package com.MyBackEnd.dto.responses;
 
 import com.MyBackEnd.services.auth.MyCustomUserDetails;
-import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 
 public class AuthResponse {
     private String token;

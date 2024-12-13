@@ -3,7 +3,7 @@ package com.MyBackEnd.models;
 public enum TaskPriorityEnum {
     LOW("Low"),
     MEDIUM("Medium"),
-    HIGH("High"),;
+    HIGH("High");
 
     private final String displayName;
 
