@@ -5,14 +5,12 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.List;
 
-
-
 @Entity
 @Table(name = "projects")
 public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserProjectRole> userProjectRoles;
+    private Set<UserProjectRole> members;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
@@ -48,7 +46,6 @@ public class Project {
     @Column(name = "status")
     private ProjectStatus status;
 
-
     // Getters and Setters
     public Integer getId() {
         return id;
@@ -69,6 +66,7 @@ public class Project {
     public int getColor() {
         return this.color;
     }
+
     public void setColor(int color) {
         this.color = color;
     }
@@ -126,15 +124,25 @@ public class Project {
         return status;
     }
 
-    public Set<UserProjectRole> getUserProjectRoles() {
-        return userProjectRoles;
+    public Set<UserProjectRole> getMembers() {
+        return members;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     public void setStatus(ProjectStatus status) {
         this.status = status;
     }
+
     public void addTask(Task task) {
         this.tasks.add(task);
+        task.setProject(this);
+    }
+
+    public void deleteTask(Task task) {
+        this.tasks.remove(task);
         task.setProject(this);
     }
 }

@@ -51,7 +51,7 @@ public class TaskService {
         Task createdTask = taskRepository.save(task);
         
         project.addTask(createdTask);
-        
+
         TaskAssignment taskAssignment = new TaskAssignment();
         taskAssignment.setRole(TaskRolesEnum.Owner);
         taskAssignment.setTask(task);
@@ -115,6 +115,8 @@ public class TaskService {
         // Check if project exists
         Task existingTask = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
+        existingTask.getProject().deleteTask(existingTask);
+
 
         try {
             taskRepository.deleteById(taskId);

@@ -52,8 +52,8 @@ public class ProjectController {
         try {
             int userId = getUserIdFromAuthentication(authentication);
             project.setCreatorId(userId);
-            project.getUserProjectRoles().forEach(user -> user.setProject(project));
-        
+            project.getMembers().forEach(user -> user.setProject(project));
+
             Project createdProject = projectService.createProject(project, userId);
             return ResponseEntity.ok(createdProject);
         } catch (Exception e) {
