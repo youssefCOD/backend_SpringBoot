@@ -18,8 +18,12 @@ public class AuthResponse {
         return this.myCustomUserDetails.getUserId();
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.myCustomUserDetails.getUsername();
+    }
+    
+    public String getEmail() {
+        return this.myCustomUserDetails.getEmail();
     }
 
     public String getFirstName(){

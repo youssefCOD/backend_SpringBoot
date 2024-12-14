@@ -50,7 +50,7 @@ public class ProjectService {
     }
 
     // Create a new project
-    public Project createProject(Project project,int userId) {
+    public Project createProject(Project project, int userId) {
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project cannot be null");
         }

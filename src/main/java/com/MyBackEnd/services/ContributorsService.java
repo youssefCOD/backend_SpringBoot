@@ -34,7 +34,7 @@ public class ContributorsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
         return userProjectRoleRepository.findByProject(project);
     }
-        public UserProjectRole createContributorById(Integer projectId,int userId){
+        public UserProjectRole createContributorById(Integer projectId, int userId){
             if (projectId == null || userId == 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project Id or User Id cannot be null");
             }
@@ -62,7 +62,7 @@ public class ContributorsService {
                         "Error creating contributor: " + e.getMessage());
             }
         }
-    public UserProjectRole createContributorByEmail(Integer projectId,String email){
+    public UserProjectRole createContributorByEmail(Integer projectId, String email){
         if(projectId == null || email == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Project Id or Email cannot be null");
         }

@@ -51,14 +51,10 @@ public class AuthController {
 
         // set security context:
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         //generate token:
         String token = jwtTokenServices.generateToken(userDetails);
 
-
-
-        AuthResponse response = new AuthResponse(token , userDetails);
-
+        AuthResponse response = new AuthResponse(token, userDetails);
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
     }
 

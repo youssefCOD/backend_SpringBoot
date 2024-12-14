@@ -48,8 +48,10 @@ public class TaskService {
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
         task.setProject(project);
-        Task createdTask =taskRepository.save(task);
-
+        Task createdTask = taskRepository.save(task);
+        
+        project.addTask(createdTask);
+        
         TaskAssignment taskAssignment = new TaskAssignment();
         taskAssignment.setRole(TaskRolesEnum.Owner);
         taskAssignment.setTask(task);

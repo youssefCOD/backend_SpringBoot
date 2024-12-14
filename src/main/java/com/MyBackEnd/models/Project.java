@@ -3,6 +3,8 @@ package com.MyBackEnd.models;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.List;
+
 
 
 @Entity
@@ -11,6 +13,9 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserProjectRole> userProjectRoles;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,8 +126,15 @@ public class Project {
         return status;
     }
 
+    public Set<UserProjectRole> getUserProjectRoles() {
+        return userProjectRoles;
+    }
+
     public void setStatus(ProjectStatus status) {
         this.status = status;
     }
-
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setProject(this);
+    }
 }
