@@ -3,6 +3,7 @@ com\MyBackEnd\controllers\AuthController.class
 com\MyBackEnd\controllers\TaskAssignmentController.class
 com\MyBackEnd\models\TaskStatusEnum.class
 com\MyBackEnd\BackendApplication.class
+com\MyBackEnd\controllers\DTO\ProjectWithContributors$ContributorDTO.class
 com\MyBackEnd\services\auth\MyCustomUserDetailsService.class
 com\MyBackEnd\helpers\ExtractUserIDFromTokenHelper.class
 com\MyBackEnd\repository\UserProjectRoleRepository.class

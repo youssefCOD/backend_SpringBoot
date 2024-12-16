@@ -150,4 +150,21 @@ public class ContributorsService {
                     "Error deleting contributor: " + e.getMessage());
         }
     }
+
+    /**
+     * Fetch all contributors for multiple projects.
+     */
+    public List<UserProjectRole> findContributorsForProjects(List<Integer> projectIds) {
+        if (projectIds == null || projectIds.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project IDs list cannot be null or empty");
+        }
+
+        List<Project> projects = projectRepository.findAllById(projectIds);
+        if (projects.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No projects found for the given IDs");
+        }
+
+        return userProjectRoleRepository.findByProjectIn(projects);
+    }
+
 }

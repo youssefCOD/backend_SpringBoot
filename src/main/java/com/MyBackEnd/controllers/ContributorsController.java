@@ -43,6 +43,7 @@ public class ContributorsController {
             return ResponseEntity.status(500).build();
         }
     }
+    // TODO : fix this
     @DeleteMapping("/project/{project_id}/user/{user_id}")
     public ResponseEntity<UserProjectRole> deleteContributor(@PathVariable("project_id")Integer projectId, @PathVariable("user_id") int userId){
         try {
