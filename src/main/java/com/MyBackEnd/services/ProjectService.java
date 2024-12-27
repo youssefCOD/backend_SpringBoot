@@ -1,5 +1,7 @@
 package com.MyBackEnd.services;
 
+import com.MyBackEnd.dto.ProjectMemberResponse;
+import com.MyBackEnd.dto.ProjectResponse;
 import com.MyBackEnd.models.Project;
 import com.MyBackEnd.models.ProjectRolesEnum;
 import com.MyBackEnd.models.User;
@@ -15,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,6 +26,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserProjectRoleRepository userProjectRoleRepository;
     private final UserRepository userRepository;
+
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository, UserProjectRoleRepository userProjectRoleRepository, UserRepository userRepository) {
@@ -123,4 +127,47 @@ public class ProjectService {
                     "Error deleting project: " + e.getMessage());
         }
     }
+    public ProjectResponse toProjectResponse(Project project) {
+        List<ProjectMemberResponse> members = project.getMembers()
+                .stream()
+                .map(member -> new ProjectMemberResponse(
+                        member.getUser().getUserId(),
+                        member.getUser().getFirstName(),
+                        member.getUser().getLastName(),
+                        member.getUser().getEmail(), // Assuming User has a username field
+                        member.getRole().toString() // Assuming UserProjectRole has a getRole() method
+                ))
+                .collect(Collectors.toList());
+
+        return new ProjectResponse(
+                project.getId(),
+                project.getTitle(),
+                project.getDescription(),
+                project.getColor(),
+                project.getCreatorId(),
+                project.getStartDate(),
+                project.getEndDate(),
+                project.getCreatedAt(),
+                project.getUpdatedAt(),
+                project.getStatus() != null ? project.getStatus().name() : null,
+                members
+        );
+    }
+
+    // Get all projects for a user
+    public List<ProjectResponse> getAllProjectsByUser(Integer userId) {
+        // Fetch UserProjectRole entries for the given user
+        List<UserProjectRole> userRoles = userProjectRoleRepository.findByUserId(userId);
+
+        // Extract projects from user roles
+        List<Project> projects = userRoles.stream()
+                .map(UserProjectRole::getProject)
+                .collect(Collectors.toList());
+
+        // Convert each project to ProjectResponse
+        return projects.stream()
+                .map(this::toProjectResponse)
+                .collect(Collectors.toList());
+    }
+    
 }

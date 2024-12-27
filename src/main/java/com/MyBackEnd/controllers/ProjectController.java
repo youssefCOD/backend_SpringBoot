@@ -1,8 +1,8 @@
 package com.MyBackEnd.controllers;
 
 import com.MyBackEnd.controllers.DTO.ProjectWithContributors;
+import com.MyBackEnd.dto.ProjectResponse;
 import com.MyBackEnd.models.Project;
-import com.MyBackEnd.models.User;
 import com.MyBackEnd.models.UserProjectRole;
 import com.MyBackEnd.services.ContributorsService;
 import com.MyBackEnd.services.ProjectService;
@@ -35,22 +35,23 @@ public class ProjectController {
 
     // Get all projects the authenticated user has access to
     @GetMapping
-    public ResponseEntity<List<Project>> getAllProjects(Authentication authentication) {
+    public ResponseEntity<List<ProjectResponse>> getAllProjects(Authentication authentication) {
         int userId = getUserIdFromAuthentication(authentication);
-        List<Project> projects = projectService.getAllProjectsForUser(userId);
+        List<ProjectResponse> projects = projectService.getAllProjectsByUser(userId);
         return ResponseEntity.ok(projects);
     }
 
     // Get a specific project by ID
     @GetMapping("/{projectId}")
-    public ResponseEntity<Project> getProjectById(@PathVariable int projectId, Authentication authentication) {
+    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable int projectId, Authentication authentication) {
         int userId = getUserIdFromAuthentication(authentication);
 
         log.info(String.valueOf(userId));
         log.debug(String.valueOf(userId));
 
         Project project = projectService.getProjectByIdAndUser(projectId, userId);
-        return ResponseEntity.ok(project);
+
+        return ResponseEntity.ok(projectService.toProjectResponse(project));
     }
 
     // Create a new project
@@ -64,7 +65,7 @@ public class ProjectController {
         try {
             int userId = getUserIdFromAuthentication(authentication);
             project.setCreatorId(userId);
-            project.getMembers().forEach(user -> user.setProject(project));
+//            project.getMembers().forEach(user -> user.setProject(project));
 
             Project createdProject = projectService.createProject(project, userId);
             return ResponseEntity.ok(createdProject);

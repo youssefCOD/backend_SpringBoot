@@ -1,5 +1,6 @@
 package com.MyBackEnd.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -9,6 +10,9 @@ import java.util.List;
 @Table(name = "projects")
 public class Project {
 
+//    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<UserProjectRole> members;
+    @JsonIgnore // Prevents circular references in JSON serialization
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserProjectRole> members;
 
