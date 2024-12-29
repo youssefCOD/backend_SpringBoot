@@ -44,7 +44,7 @@ public class ProjectController {
     // Get a specific project by ID
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectResponse> getProjectById(@PathVariable int projectId, Authentication authentication) {
-        int userId = getUserIdFromAuthentication(authentication);
+        final int userId = getUserIdFromAuthentication(authentication);
 
         log.info(String.valueOf(userId));
         log.debug(String.valueOf(userId));

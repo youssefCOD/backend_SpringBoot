@@ -18,8 +18,8 @@ public class ProjectResponse {
 
     // Constructor
     public ProjectResponse(Integer id, String title, String description, int color, Integer creatorId,
-                           LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt,
-                           LocalDateTime updatedAt, String status, List<ProjectMemberResponse> members) {
+            LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt,
+            LocalDateTime updatedAt, String status, List<ProjectMemberResponse> members) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -122,4 +122,3 @@ public class ProjectResponse {
         this.members = members;
     }
 }
-

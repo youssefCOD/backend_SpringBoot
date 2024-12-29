@@ -1,5 +1,15 @@
 package com.MyBackEnd.services;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.MyBackEnd.dto.ProjectMemberResponse;
 import com.MyBackEnd.dto.ProjectResponse;
 import com.MyBackEnd.models.Project;
@@ -9,15 +19,6 @@ import com.MyBackEnd.models.UserProjectRole;
 import com.MyBackEnd.repository.ProjectRepository;
 import com.MyBackEnd.repository.UserProjectRoleRepository;
 import com.MyBackEnd.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,9 +28,9 @@ public class ProjectService {
     private final UserProjectRoleRepository userProjectRoleRepository;
     private final UserRepository userRepository;
 
-
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, UserProjectRoleRepository userProjectRoleRepository, UserRepository userRepository) {
+    public ProjectService(ProjectRepository projectRepository, UserProjectRoleRepository userProjectRoleRepository,
+            UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.userProjectRoleRepository = userProjectRoleRepository;
         this.userRepository = userRepository;
@@ -127,6 +128,7 @@ public class ProjectService {
                     "Error deleting project: " + e.getMessage());
         }
     }
+
     public ProjectResponse toProjectResponse(Project project) {
         List<ProjectMemberResponse> members = project.getMembers()
                 .stream()
@@ -135,7 +137,8 @@ public class ProjectService {
                         member.getUser().getFirstName(),
                         member.getUser().getLastName(),
                         member.getUser().getEmail(), // Assuming User has a username field
-                        member.getRole().toString() // Assuming UserProjectRole has a getRole() method
+                        member.getRole().toString(), // Assuming UserProjectRole has a getRole() method
+                        member.getUser().getColor() // Assuming User has a getColor() method
                 ))
                 .collect(Collectors.toList());
 
@@ -150,8 +153,7 @@ public class ProjectService {
                 project.getCreatedAt(),
                 project.getUpdatedAt(),
                 project.getStatus() != null ? project.getStatus().name() : null,
-                members
-        );
+                members);
     }
 
     // Get all projects for a user
@@ -169,5 +171,5 @@ public class ProjectService {
                 .map(this::toProjectResponse)
                 .collect(Collectors.toList());
     }
-    
+
 }
