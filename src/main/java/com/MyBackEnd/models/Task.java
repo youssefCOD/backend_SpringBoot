@@ -1,5 +1,7 @@
 package com.MyBackEnd.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +19,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "project_id",nullable = false)
+    @JsonIgnore
     private Project project;
 
 
@@ -35,6 +38,7 @@ public class Task {
     private TaskPriorityEnum priority;
 
     @Column(name="due_date",nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "UTC")
     private Date dueDate;
 
     @CreationTimestamp
