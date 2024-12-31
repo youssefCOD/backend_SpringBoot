@@ -6,12 +6,14 @@ public class ProjectMemberResponse {
     private String lastName;
     private String email;
     private String role;
+    private int color;
 
     // Constructor
-    public ProjectMemberResponse(Integer userId, String firstName, String lastName, String email, String role) {
+    public ProjectMemberResponse(Integer userId, String firstName, String lastName, String email, String role,
+            int color) {
         this.userId = userId;
-        this.firstName=firstName;
-        this.lastName=lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.role = role;
     }
@@ -55,5 +57,13 @@ public class ProjectMemberResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

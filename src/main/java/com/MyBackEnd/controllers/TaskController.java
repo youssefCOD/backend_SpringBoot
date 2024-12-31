@@ -23,7 +23,7 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
     @PostMapping("/project/{project_id}/user/{user_id}")
-    public ResponseEntity<Task> createTask(@RequestBody Task taskBody,@PathVariable("project_id")Integer projectId,@PathVariable("user_id")int userId){
+    public ResponseEntity<Task> createCreate(@RequestBody Task taskBody,@PathVariable("project_id")Integer projectId,@PathVariable("user_id")int userId){
         try {
             
             Task task = taskService.createTaskByProjectId(taskBody,projectId,userId);

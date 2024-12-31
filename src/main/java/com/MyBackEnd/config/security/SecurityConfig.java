@@ -1,7 +1,5 @@
 package com.MyBackEnd.config.security;
 
-import com.MyBackEnd.config.filters.JWTAuthFilter;
-import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.MyBackEnd.config.filters.JWTAuthFilter;
+import com.MyBackEnd.services.auth.MyCustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -26,23 +26,25 @@ public class SecurityConfig {
     private MyCustomUserDetailsService myCustomUserDetailsService;
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/**").permitAll() // F security
                         .requestMatchers("/", "api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/projects/**","/api/contributors/**","/api/tasks/**").authenticated()
+                        .requestMatchers("/api/projects/**", "/api/contributors/**", "/api/tasks/**").authenticated()
                         .anyRequest().authenticated())
-                .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(
+                        sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthFilter, UsernamePasswordAuthenticationFilter.class
-                );
+                        jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(myCustomUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
@@ -50,12 +52,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 

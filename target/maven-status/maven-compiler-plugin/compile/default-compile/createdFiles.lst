@@ -4,6 +4,7 @@ com\MyBackEnd\controllers\TaskAssignmentController.class
 com\MyBackEnd\models\TaskStatusEnum.class
 com\MyBackEnd\BackendApplication.class
 com\MyBackEnd\controllers\DTO\ProjectWithContributors$ContributorDTO.class
+com\MyBackEnd\controllers\DTO\ProjectWithContributors.class
 com\MyBackEnd\services\auth\MyCustomUserDetailsService.class
 com\MyBackEnd\helpers\ExtractUserIDFromTokenHelper.class
 com\MyBackEnd\repository\UserProjectRoleRepository.class
@@ -18,6 +19,7 @@ com\MyBackEnd\dto\responses\AuthResponse.class
 com\MyBackEnd\models\User.class
 com\MyBackEnd\models\TaskRolesEnum.class
 com\MyBackEnd\models\ProjectRolesEnum.class
+com\MyBackEnd\dto\ProjectResponse.class
 com\MyBackEnd\models\ProjectStatus.class
 com\MyBackEnd\models\TaskAssignment.class
 com\MyBackEnd\services\TaskService.class
@@ -33,5 +35,6 @@ com\MyBackEnd\services\auth\MyCustomUserDetails.class
 com\MyBackEnd\services\ProjectService.class
 com\MyBackEnd\repository\UserRepository.class
 com\MyBackEnd\controllers\ContributorsController.class
+com\MyBackEnd\dto\ProjectMemberResponse.class
 com\MyBackEnd\config\security\SecurityConfig.class
 com\MyBackEnd\controllers\TaskController.class
