@@ -65,7 +65,7 @@ public class TaskAssignmentService {
         if (taskId == null || email == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "task Id or Email cannot be null");
         }
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
@@ -123,7 +123,7 @@ public class TaskAssignmentService {
         if (taskId == null || email == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "task Id or Email cannot be null");
         }
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }

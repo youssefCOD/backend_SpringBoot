@@ -10,9 +10,8 @@ import java.util.List;
 @Table(name = "projects")
 public class Project {
 
-//    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<UserProjectRole> members;
-    @JsonIgnore // Prevents circular references in JSON serialization
+
+   // Prevents circular references in JSON serialization //* you are a dumass
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserProjectRole> members;
 
@@ -49,6 +48,8 @@ public class Project {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ProjectStatus status;
+
+
 
     // Getters and Setters
     public Integer getId() {
@@ -130,6 +131,10 @@ public class Project {
 
     public Set<UserProjectRole> getMembers() {
         return members;
+    }
+
+    public void addMembers(UserProjectRole member) {
+        members.add(member);
     }
 
     public List<Task> getTasks() {

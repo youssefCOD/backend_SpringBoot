@@ -5,6 +5,8 @@ C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\ContributorsController.java
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\DTO\ProjectWithContributors.java
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\DTO\RegistrationResponse.java
+C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\DTO\UserRequest.java
+C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\DTO\UserResponse.java
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\IndexController.java
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\ProjectController.java
 C:\Users\youne\Desktop\Brograming\backend_SpringBoot\src\main\java\com\MyBackEnd\controllers\TaskAssignmentController.java

@@ -14,6 +14,5 @@ public interface UserProjectRoleRepository extends JpaRepository<UserProjectRole
     UserProjectRole findByUser(User user);
     UserProjectRole findByUserAndProject(User user, Project project);
     List<UserProjectRole> findByProjectIn(List<Project> projects);
-
     List<UserProjectRole> findByUserId(Integer userId);
 }

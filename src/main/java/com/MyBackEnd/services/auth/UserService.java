@@ -1,11 +1,12 @@
 package com.MyBackEnd.services.auth;
 
-import com.MyBackEnd.models.User;
-import com.MyBackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.MyBackEnd.models.User;
+import com.MyBackEnd.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -15,9 +16,8 @@ public class UserService {
 
     // Using Spring Data JPA's built-in method to find a user by email
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);  // This method is automatically created by Spring Data JPA
-    }
-
+        return userRepository.findByEmail(email).orElse(null); // This method is automatically created by Spring Data
+    } // JPA
     // Using Spring Data JPA's save method for inserting or updating users
     public User createUser(String first_name, String last_name, String email, String password, int color) {
 
@@ -31,6 +31,6 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(password);
         user.setColor(color);
-        return userRepository.save(user);  // Save the user to the database
+        return userRepository.save(user); // Save the user to the database
     }
 }

@@ -2,6 +2,7 @@ package com.MyBackEnd.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import com.MyBackEnd.models.Task;
 
 public class ProjectResponse {
     private Integer id;
@@ -15,11 +16,12 @@ public class ProjectResponse {
     private LocalDateTime updatedAt;
     private String status;
     private List<ProjectMemberResponse> members;
+    private List<Task> tasks;
 
     // Constructor
     public ProjectResponse(Integer id, String title, String description, int color, Integer creatorId,
             LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt,
-            LocalDateTime updatedAt, String status, List<ProjectMemberResponse> members) {
+            LocalDateTime updatedAt, String status, List<ProjectMemberResponse> members, List<Task> tasks) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,6 +33,7 @@ public class ProjectResponse {
         this.updatedAt = updatedAt;
         this.status = status;
         this.members = members;
+        this.tasks = tasks;
     }
 
     // Getters and Setters
@@ -120,5 +123,13 @@ public class ProjectResponse {
 
     public void setMembers(List<ProjectMemberResponse> members) {
         this.members = members;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 }

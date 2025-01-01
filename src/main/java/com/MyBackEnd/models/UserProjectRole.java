@@ -1,5 +1,7 @@
 package com.MyBackEnd.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class UserProjectRole {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;

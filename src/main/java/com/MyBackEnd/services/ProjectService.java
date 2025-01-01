@@ -153,7 +153,8 @@ public class ProjectService {
                 project.getCreatedAt(),
                 project.getUpdatedAt(),
                 project.getStatus() != null ? project.getStatus().name() : null,
-                members);
+                members,
+                project.getTasks());
     }
 
     // Get all projects for a user

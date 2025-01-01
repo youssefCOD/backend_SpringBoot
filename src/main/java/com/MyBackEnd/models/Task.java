@@ -1,13 +1,24 @@
 package com.MyBackEnd.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tasks")
@@ -18,31 +29,30 @@ public class Task {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "project_id",nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     @JsonIgnore
     private Project project;
 
-
-    @Column(name="name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="description",nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="status",nullable = false)
+    @Column(name = "status", nullable = false)
     private TaskStatusEnum status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="priority",nullable = false)
+    @Column(name = "priority", nullable = false)
     private TaskPriorityEnum priority;
 
-    @Column(name="due_date",nullable = false)
+    @Column(name = "due_date", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "UTC")
     private Date dueDate;
 
     @CreationTimestamp
-    @Column(name="created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
